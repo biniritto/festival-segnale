@@ -216,8 +216,34 @@ h3 {
 }
 
 /* Da 1024 px in su: 3 colonne */
-@media (min-width: 1024 px) {
+@media (min-width: 1024px) {
   .event-grid {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* Stili necessari per far funzionare lo slider Swiper */
+.swiper {
+  width: 100%;
+  max-width: 54rem;
+  height: auto;
+  margin-top: 1.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid #b7c0b7;
+  background: #ffffff;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.swiper-slide {
+  padding: 3.5rem;
+}
+
+.swiper-slide h3 {
+  margin-top: 1rem;
 }
