@@ -3,12 +3,12 @@
 
 /* Scelte comuni: ogni regola usa var() per richiamarne il valore. */
 :root {
-  --colore-primario: #4184ff;
-  --colore-primario-scuro: #06b300;
-  --colore-sfondo: #f5f2e9;
-  --colore-testo: #202923;
-  --font-testo: Arial, Helvetica, sans-serif;
-  --font-titoli: Georgia, "Times New Roman", serif;
+  --colore-primario: #1E3A8A;
+  --colore-primario-scuro: #059669;
+  --colore-sfondo: #F8F9FA;
+  --colore-testo: #1F2937;
+  --font-testo: "Plus Jakarta Sans", Helvetica, sans-serif;
+  --font-titoli: "Plus Jakarta Sans", "Times New Roman", serif;
 }
 
 * {
@@ -46,6 +46,12 @@ a:focus-visible {
 .site-header {
   padding: 1.25rem 0;
   border-bottom: 4px solid var(--colore-primario);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--colore-sfondo, #f7f8f5);
+  padding: 1.25rem 0;
+  border-bottom: 4px solid var(--colore-primario);
 }
 
 .brand {
@@ -61,7 +67,7 @@ a:focus-visible {
   display: block;
   margin-top: 0.25rem;
   font-size: 0.875rem;
-  font-weight: normal;
+  font-weight: regular;
 }
 
 nav {
@@ -246,4 +252,17 @@ h3 {
 
 .swiper-slide h3 {
   margin-top: 1rem;
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    padding: 0.75rem 0; /* Compatta l'altezza dell'header sticky sul telefono */
+  }
+
+  .site-header nav {
+    display: flex;
+    flex-direction: column; /* Mette i link in colonna uno sotto l'altro */
+    align-items: flex-start; /* Li allinea a sinistra sotto il logo */
+    gap: 0.5rem; /* Spazio verticale comodo per il tocco */
+  }
 }
