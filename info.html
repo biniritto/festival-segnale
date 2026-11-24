@@ -98,6 +98,23 @@
       <h2>Come partecipare</h2>
       <p class="reading-text">Tutti gli appuntamenti del festival sono gratuiti con prenotazione consigliata. I laboratori a numero chiuso richiedono la registrazione in loco 15 minuti prima dell'inizio.</p>
     </section>
+
+    <section class="content-section" id="meteo-torino" aria-labelledby="titolo-meteo">
+      <h2 id="titolo-meteo">Meteo a Torino adesso</h2>
+      <p id="stato-meteo" class="reading-text">Caricamento dei dati meteo in corso...</p>
+      <div id="dati-meteo" hidden>
+        <ul class="venues">
+          <li><strong>Temperatura:</strong> <span id="meteo-temperatura"></span></li>
+          <li><strong>Vento:</strong> <span id="meteo-vento"></span></li>
+          <li><strong>Ora del dato:</strong> <span id="meteo-ora"></span></li>
+        </ul>
+      </div>
+      <p class="reading-text">Nota: i dati mostrano il meteo attuale di oggi a Torino e non costituiscono la previsione per le date del festival.</p>
+      <p class="reading-text">
+        Dati meteo: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>, licenza <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>.
+      </p>
+    </section>
+
   </main>
 
   <footer class="site-footer">
@@ -116,6 +133,45 @@
         prevEl: '.swiper-button-prev',
       },
     });
+  </script>
+  <script>
+    async function caricaMeteoTorino() {
+      const urlMeteo = 'https://api.open-meteo.com/v1/forecast?latitude=45.0703&longitude=7.6869&current=temperature_2m,wind_speed_10m&timezone=Europe%2FRome';
+      const statoMeteo = document.getElementById('stato-meteo');
+      const contenitoreDati = document.getElementById('dati-meteo');
+      const elTemperatura = document.getElementById('meteo-temperatura');
+      const elVento = document.getElementById('meteo-vento');
+      const elOra = document.getElementById('meteo-ora');
+
+      try {
+        const risposta = await fetch(urlMeteo);
+        if (!risposta.ok) {
+          throw new Error('Risposta HTTP non valida');
+        }
+
+        const dati = await risposta.json();
+        const corrente = dati.current;
+        const unita = dati.current_units || {};
+
+        if (!corrente) {
+          throw new Error('Dati correnti assenti');
+        }
+
+        elTemperatura.textContent = `${corrente.temperature_2m} ${unita.temperature_2m || '°C'}`;
+        elVento.textContent = `${corrente.wind_speed_10m} ${unita.wind_speed_10m || 'km/h'}`;
+        elOra.textContent = corrente.time ? corrente.time.replace('T', ' ') : 'Non disponibile';
+
+        statoMeteo.hidden = true;
+        contenitoreDati.hidden = false;
+      } catch (errore) {
+        console.error('Errore caricamento meteo:', errore);
+        contenitoreDati.hidden = true;
+        statoMeteo.hidden = false;
+        statoMeteo.textContent = 'Al momento non è possibile recuperare il meteo di Torino.';
+      }
+    }
+
+    caricaMeteoTorino();
   </script>
 </body>
 </html>
